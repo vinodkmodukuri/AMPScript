@@ -1,1 +1,104 @@
+<h3>AttributeValue() - Returns the value of an attribute</h3>
+%%[
+  SET @fname = AttributeValue("FirstName")
+]%%
+%%=v(@fname)=%%
 
+<br><hr>
+
+<h3>Base64Decode() - Converts Base64-encoded binary data to a string of text</h3>
+%%[ 
+  VAR @couponCode, @couponCodeBase64
+  SET @couponCodeBase64 = "aDhJm2DnMAhlO0J2"
+  SET @couponCode = Base64Decode(@couponCodeBase64)
+]%%
+%%=v(@couponCode)=%%
+
+<hr>
+
+<h3>Base64Encode() - Converts text to binary data by using Base64 encoding.</h3>
+%%[ 
+  VAR @couponCode, @couponCodeBase64
+  SET @couponCodeBase64 = "aShgS2579BhAbjAa"
+  SET @couponCode = Base64Encode(@couponCodeBase64)
+]%%
+%%=v(@couponCode)=%%
+
+<hr>
+
+<h3>Domain() - Returns the domain part of an email address.</h3>
+%%[ 
+  VAR @email
+  SET @email = AttributeValue("Email")
+]%%
+%%=Domain(@email)=%%
+
+<hr>
+
+<h3>Empty() - Tests to see if a variable has a value.</h3>
+%%[
+  SET @emptyVariable = ""
+  SET @nonEmptyVariable = "Hello World!"
+]%%
+%%[
+  SET @emptyVar = IIF(Empty(@emptyVariable), @emptyVariable, @nonEmptyVariable)
+  SET @emptyVar1 = IIF(NOT Empty(@emptyVariable), @emptyVariable, @nonEmptyVariable)
+  SET @nonEmptyVar = IIF(Empty(@nonEmptyVariable), @emptyVariable, @nonEmptyVariable)
+  SET @nonEmptyVar1 = IIF(NOT Empty(@nonEmptyVariable), @nonEmptyVariable, @emptyVariable)
+]%%
+
+<p>Empty Variable: %%=v(@emptyVar)=%%</p><br>
+<p>Empty Variable1: %%=v(@emptyVar1)=%%</p><br>
+<p>Non Empty Variable: %%=v(@nonEmptyVar)=%%</p><br>
+<p>Non Empty Variable1: %%=v(@nonEmptyVar1)=%%</p><br>
+
+<hr>
+
+<h3>FormatCurrency() - Formats a number as a currency value.</h3>
+%%[
+  SET @price = 123.45
+]%%
+
+<h3>Displaying the price</h3>
+%%=FormatCurrency(@price, "en_US")=%%
+
+<h3>Rounding or Adding Precision</h3>
+%%=FormatCurrency(@price, "en_US", 0)=%%
+
+<h3>Using Alternative Currency Symbols</h3>
+%%=FormatCurrency(@price, "en_US", 0, "US$")=%%
+
+<hr>
+
+<h3>FormatNumber() - Formats a number as a numeric type, such as a decimal, date, or currency value.</h3>
+<p>Syntax: FormatNumber(number, formatType, cultureCode)</p>
+
+%%[
+  SET @price = 1234.567
+  SET @price1 = 12344535
+]%%
+
+<p>Currency: %%=FormatNumber(@price, "C")=%%</p>
+<p>Thousands: %%=FormatNumber(@price1, "N")=%%</p>
+<p>Percentage: %%=FormatNumber(@price1, "P")=%%</p>
+
+<hr>
+
+<h3>Globally Unique Identifier (GUID) - Generates a 128-bit Globally Unique Identifier</h3>
+%%[ 
+  SET @uID = GUID()
+]%%
+%%=v(@uID)=%%
+
+<hr>
+
+<h3>Iif() - Use the Iif() function to test a condition</h3>
+<p>If the condition is true, the function returns the second parameter. If the condition is false, it returns the third parameter.</p>
+
+%%[
+  SET @status = AttributeValue("Status")
+  SET @fname = AttributeValue("FirstName")
+  SET @notActive = "Not an Active Member"
+  SET @activeStatus = IIF(@status == "Active", @fname, @notActive)
+]%%
+%%=v(@activeStatus)=%%
