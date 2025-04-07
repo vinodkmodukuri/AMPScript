@@ -1,1 +1,37 @@
+<ul>
+  <p>
+    </p><h3>
+      AMPScript Basics
+  </h3>
+  <p></p>
+</ul>
 
+<ul>
+    <li> Learn how to create variables </li>
+    <li> How to refer to values in a data extension by using created variables</li>
+    <li>Displaying the value of a variable in a message</li>
+</ul>
+
+%%[
+  /* Declaring variables */
+  VAR @subKey, @fName, @lName, @country, @myNTOLevel, @myNTOBal
+  
+  /* Initialization or Assignment*/
+  SET @subKey = AttributeValue("SubscriberKey")
+  SET @fName = AttributeValue("FirstName")
+  SET @lname = AttributeValue("LastName")
+  SET @county = AttributeValue("Country")
+  SET @myNTOLevel = AttributeValue("myNTOLevel")
+  SET @myNTOBal = AttributeValue("myNTOBalance")
+  SET @maskedSubKey = CONCAT("****", SubString(@subKey, 4))
+]%%
+
+<div style="padding: 20px;">
+  <p>Hello %%=v(@fName)=%% and you are account details </p> 
+<p>Customer ID: %%=v(@maskedSubKey)=%%</p>
+<p>First Name: %%=v(@fName)=%%</p> 
+<p>Last Name: %%=v(@lName)=%%</p> 
+<p>Country: %%=v(@county)=%%</p> 
+<p>My NTO Level: %%=v(@myNTOLevel)=%%</p>
+<p>NTO Balance: %%=v(@myNTOBal)=%%</p> 
+</div>
