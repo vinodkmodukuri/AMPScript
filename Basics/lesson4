@@ -1,0 +1,47 @@
+%%[
+  VAR @fName, @lName, @email, @phone, @status
+  VAR @rows, @row , @i, @rowCount, @memID
+
+  SET @memID = AttributeValue("MemberID")
+  SET @fName = AttributeValue("FirstName")
+  SET @lName = AttributeValue("LastName")
+  SET @email = AttributeValue("Email")
+  SET @phone = AttributeValue("Phone")
+  SET @status = AttributeValue("Status")
+
+  SET @rows = LookupOrderedRows("AdiClub_Members", 100, "MemberID", "Status", "Active")
+  SET @rowCount = RowCount(@rows)
+]%%
+
+<p>The total number of Active Customers subscribers are: <strong>%%=v(@rowCount)=%%</strong></p>
+
+<table border="1" cellpadding="5" cellspacing="0">
+  <tr>
+    <th>MemberID</th> 
+    <th>FirstName</th> 
+    <th>LastName</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Status</th>
+  </tr>
+
+  %%[
+    FOR @i = 1 TO @rowCount DO
+      SET @row = Row(@rows, @i)
+      SET @memID = FIELD(@row, "MemberID")
+      SET @fName = FIELD(@row, "FirstName")
+      SET @lName = FIELD(@row, "LastName")
+      SET @email = FIELD(@row, "Email")
+      SET @phone = FIELD(@row, "Phone")
+      SET @status = FIELD(@row, "Status")
+  ]%%
+    <tr>
+      <td>%%=v(@memID)=%%</td>
+      <td>%%=v(@fName)=%%</td>
+      <td>%%=v(@lName)=%%</td>
+      <td>%%=v(@email)=%%</td>
+      <td>%%=v(@phone)=%%</td>
+      <td>%%=v(@status)=%%</td>
+    </tr>
+  %%[ NEXT @i ]%%
+</table>
