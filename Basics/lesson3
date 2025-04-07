@@ -1,0 +1,33 @@
+<!
+%%[
+  VAR @message, @imageURL, @myNTLBal, @country, @level
+
+  SET @myNTLBal = AttributeValue("myNTOBalance")
+  SET @country = AttributeValue("Country")
+
+  IF @myNTLBal < 500 THEN
+    SET @level = "Silver"
+    SET @imageURL = "https://image.s8.sfmc-content.com/lib/fe3011717264057e701075/m/1/00734468-cb3c-439d-aea4-3f6fb75092ee.jpeg"
+  ELSEIF @myNTLBal < 1500 THEN
+    SET @level = "Gold"
+    SET @imageURL = "https://image.s8.sfmc-content.com/lib/fe3011717264057e701075/m/1/77ae935b-5475-438f-a4f5-e2118c20714f.jpeg"
+  ELSE
+    SET @level = "Platinum"
+    SET @imageURL = "https://image.s8.sfmc-content.com/lib/fe3011717264057e701075/m/1/ed9d4539-84ce-48ff-806b-d79aa28c7ca9.jpeg"
+  ENDIF
+
+  IF @country == "Canada" THEN
+    SET @message = CONCAT("Eh! Welcome to the ", @level, " tier – enjoy exclusive perks!")
+  ELSEIF @country == "Germany" THEN
+    SET @message = CONCAT("Willkommen! Du bist jetzt ", @level, "-Mitglied.")
+  ELSE 
+    SET @message = CONCAT("You're now in the ", @level, " tier. Enjoy the benefits!")
+  ENDIF
+]%%
+/*To render the image and message */
+<img src="%%=v(@imageURL)=%%" alt="Local image - %%=v(@level)=%%" style="width:300px; 
+            border-radius:12px; 
+            box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+
+<h2 style="font-family:sans-serif; font-size:18px;color:#333;">
+ %%=v(@message)=%%</h2>
