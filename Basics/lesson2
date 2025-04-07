@@ -1,0 +1,65 @@
+<ul>
+  <p>
+    </p><h3>
+      AMPScript Basics
+  </h3>
+  <p></p>
+</ul>
+
+<ul>
+    <li> Learn how to combining functions and variables </li>
+    <li> How to the change the conrent dynamically using If, Else, and ElseIf statements</li>
+
+<hr>
+%%[
+  /* Declaring variables */
+  VAR @subKey, @fName, @lName, @country, @myNTOLevel, @myNTOBal, @PrefName, @Gender
+  
+  /* Initialization or Assignment*/
+  SET @subKey = AttributeValue("SubscriberKey")
+  SET @fName = AttributeValue("FirstName")
+  SET @lname = AttributeValue("LastName")
+  SET @county = AttributeValue("Country")
+  SET @myNTOLevel = AttributeValue("myNTOLevel")
+  SET @myNTOBal = AttributeValue("myNTOBalance")
+  SET @PrefName = AttributeValue("PreferredName")
+  SET @gender = AttributeValue("Gender")
+]%%
+</ul>
+
+%%[
+   SET @greeting = Iif(Empty(@PrefName), @fName, @PrefName)
+  ]%%
+
+%%=v(@greeting)=%%
+
+%%[
+  /* We are combining the Empty() function with other variables; 
+     The Empty() function returns true if the specified value is null or an      empty string. 
+  Iif() - If the condition is true, the function returns the first value. If the condition is false, the function returns the second value. */ 
+%%]
+<br>
+<hr>
+  %%[
+     IF @gender=="Female" THEN 
+     SET @message = "<a href=https://google.com>Click here for a special coupon </a>"
+     ELSE 
+     SET @message = "Buy1, Get 1 FREE <a href=https://google.com/>Click Here </a>"
+     ENDIF
+   ]%%
+<hr>
+%%=v(@message)=%%
+
+<hr>
+
+%%[
+IF @myNTOBal < 500 THEN 
+SET @message1 = "Your level is Silver"
+ELSEIF @myNTOBal < 1500 THEN
+SET @message = "Your level is Gold"
+ELSE
+SET @message = "Your level is Platinum"
+ENDIF
+]%%
+%%=v(@message)=%%
+
