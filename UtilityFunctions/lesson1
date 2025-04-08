@@ -102,3 +102,108 @@
   SET @activeStatus = IIF(@status == "Active", @fname, @notActive)
 ]%%
 %%=v(@activeStatus)=%%
+<h3>
+  IsEmailAddress() - Tests whether an email address is well formed.
+</h3>
+
+%%[
+
+ SET @Email = AttributeValue("Email")
+ SET @ValidateEmail = IsEmailAddress(@Email)
+ IF @ValidateEmail == 1 THEN
+   SET @result = "It is a valid Email"
+ ELSE 
+  SET @result = "It's not a valid Email" 
+ ENDIF
+]%%
+
+<p>Email Address: %%=v(@Email)=%%</p>
+<p>Validation Result: %%=v(@result)=%%</p>
+
+<hr>
+<h3>
+  IsNull() - Tests whether the value of a variable or function is null
+</h3>
+
+%%[ 
+  VAR @a, @b, @c
+  SET @b = ""
+  SET @c = "Name";
+]%%
+
+<p> IsNull (@a) : %%=IsNull(@a)=%% </p>
+<p> IsNull (@b) : %%=IsNull(@b)=%% </p>
+<p> IsNull (@c) : %%=IsNull(@c)=%% </p>
+
+<h3>
+  IsPhoneNumber() : Tests whether the supplied parameter is a valid phone number in the North American Numbering Plan (NANP)
+</h3>
+
+%%[
+
+VAR @phone, @validPhone
+SET @phone = AttributeValue(Phone)
+SET @validPhone = 4699423456
+SET @validPhone1 = "469.942.3456"
+SET @validPhone2 = "(469)942-3456"
+
+
+]%%
+
+%%=IsPhoneNumber(@phone)=%% <br>
+%%=IsPhoneNumber(@validPhone)=%% <br>
+%%=IsPhoneNumber(@validPhone1)=%% <br>
+%%=IsPhoneNumber(@validPhone2)=%% <br>
+
+<hr>
+<h3>
+  Output() - Returns the result of an AMPscript function- such as Concat() or v(),
+</h3>
+
+%%[
+
+  VAR @fName, @lName
+  SET @fName = "Vinod"
+  SET @lName = "Kumar"
+  OUTPUT(v(@fname))
+  OUTPUT(CONCAT(" ", @fName, " " , @lName))
+]%%
+
+<hr>
+
+%%[
+
+  VAR @fName, @lName
+  SET @fName = "Frank"
+  SET @lName = "Robert"
+  OutputLine(v(@fname))
+  OutputLine(CONCAT(@fName, " " , @lName))
+]%%
+
+<hr>
+<p>
+  RaiseError
+Stops the processing of an email job and produces an error message. In journeys, this function removes a subscriber from only one send. It doesn’t remove them from other sends in the journey.
+</p>
+
+<hr>
+<p>
+Random() - Returns a random number within a defined range.
+</p>
+
+%%=Random(10, 100)=%%
+
+
+<hr>
+<p>
+  v() - Outputs the value of a variable.
+</p>
+
+%%[
+
+  VAR @greeting
+  SET @greeting = "Hello"
+]%%
+
+%%=v(@greeting)=%%
+
