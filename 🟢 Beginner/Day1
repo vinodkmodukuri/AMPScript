@@ -1,1 +1,111 @@
 
+/* 
+Learn the following AMPScript functions 
+
+v() - Outputs the value of a variable.
+Lookup() - Returns a value from a data extension.
+LookupRows() - Returns an unordered rowset from a data extension
+LookupOrderedRows() - Returns rows from a data extension sorted in ascending or descending order 
+Row() - Returns a row from a rowset or array.
+RowCount() - Returns the number of rows in a row set or array.
+Field() - Returns a specific field from a data row.
+FormatDate() - Format a string as a date value.
+*/
+
+
+/* 
+    Step 1: Create a Data Extension in the Email Studio
+
+
+            |------------------|----------------|--------|-------------|----------|---------------|
+            |    Name          |    Data Type   | Length | Primary Key | Nullable | Default Value | 
+            |------------------|----------------|--------|-------------|----------|---------------|
+            | Email            |  Email Address |  254   |     [x]     |    [ ]   |               | 
+            | First Name       |        Text    |   50   |     [ ]     |    [x]   |               | 
+            | Customer ID      |        Text    |   50   |     [x]     |    [ ]   |               | 
+            | Product Name     |        Text    |   50   |     [ ]     |    [x]   |               | 
+            | Order Date       |        Date    |        |     [ ]     |    [x]   |               | 
+            | TrialStartDate   |        Date    |        |     [ ]     |    [x]   |               | 
+            | SubscriptionDate |        Date    |        |     [ ]     |    [x]   |               | 
+            | Birth Date       |        Date    |        |     [ ]     |    [x]   |               | 
+            |------------------|----------------|--------|-------------|----------|---------------|
+
+
+    Step 2: Import the data from the following CSV file into the Data Extension:
+            Data Extension link: https://github.com/vinodkmodukuri/AMPScript/blob/main/%F0%9F%9F%A2%20Beginner/CustomerActivity_DE.csv 
+
+    Step 3: Use the imported data to implement the following use cases in Email Studio.
+*/
+
+/*Usecase 1: Personalize the email greeting using the subscriber’s first name from a data extension for a specific customer*/
+
+%%[
+VAR @fname, 
+  SET @fname = LOOKUP("CustomerActivity_DE", "FirstName", "CustomerID", "CUST2869")
+]%%
+<p>
+  Hello, %%=v(@fname)=%%
+</p>
+
+
+/*Usecase 2: Dynamically personalize the email greeting using the subscriber’s first name from a data extension.*/
+
+%%[
+ VAR @fName, @cID
+ SET @cID = AttributeValue("CustomerID")
+ SET @fName = LOOKUP("CustomerActivity_DE", "FirstName", "CustomerID", @cID)
+]%%
+<p>
+ Hello, %%=v(@fname)=%%
+</p>
+
+/*Usecase 3: Count the number of unique customers who have placed an order for the "EcoSpeaker".*/
+
+%%[
+SET @pName = "EcoSpeaker"
+SET @rows = LookupRows("CustomerActivity_DE", "ProductName", @pName)
+SET @rowCount = RowCount(@rows)
+]%%
+<p>The total number of orders placed for EcoSpeaker: <strong>%%=v(@rowCount)=%%</strong></p>
+
+
+/*Usecase 4: Retrieve the first names of all customers who ordered the "EcoSpeaker"..*/
+
+%%[
+ VAR @pName, @i, @rows1, @rowCount
+ SET @pName = "EcoSpeaker"
+ SET @rows1 = LookupRows("CustomerActivity_DE", "ProductName", @pName)
+ SET @rowCount = RowCount(@rows)
+ IF  @rowCount > 0 THEN 
+ FOR @i = 1 TO @rowCount DO 
+ SET @rows1 = ROW(@rows, @i)
+ SET @fName = FIELD(@rows1, "FirstName")
+]%%
+%%=v(@fName)=%% <br>
+%%[
+  NEXT @i
+  ENDIF
+]%%
+
+
+/*Usecase 5: Determine the order dates for the "EcoSpeaker" product and the first name customer*/
+
+%%[
+VAR @pName, @fName, @rows, @rowCount, @orderDate, @i
+SET @pName ="EcoSpeaker"
+SET @rows = LOOKUPROWS("CustomerActivity_DE", "ProductName", @pName)
+SET @rowCount = ROWCOUNT(@rows)
+]%%
+%%[
+IF @rowCount > 0 THEN 
+  FOR @i = 1 TO @rowCount DO 
+  SET @row = ROW(@rows, @i)
+  SET @fName = FIELD(@row, "FirstName")
+  SET @orderDate = FIELD(@row, "OrderDate")
+]%%
+%%=v(@fName)=%% -
+%%=FORMATDATE(@orderDate, "MMMM dd, yyyy")=%% <br>
+%%[
+NEXT @i
+ENDIF
+]%%
