@@ -1,1 +1,57 @@
+/**********************MATH FUNCTIONS**********************/
+
+Add()	Returns the sum of two numbers.
+Subtract()	Returns the result of subtracting the second parameter from the first parameter.
+Multiply()	Returns the product of two numbers.
+Divide()	Returns the result of dividing the first parameter by the second parameter.
+Mod()	Returns the remainder after dividing the first parameter by the second parameter.
+
+%%[
+VAR @num1, @num2, @sum
+SET @num1 = 10
+SET @num2 =20
+SET @sum = ADD(@num1, @num2)
+SET @subtract = SUBTRACT(@num1, @num2)
+SET @multiplication = MULTIPLY(@num1, @num2)
+SET @division = DIVIDE(@num1, @num2)
+SET @mod = MOD(@num1, @num2)
+]%%
+
+The sum of num1 and num2 is : %%=v(@sum)=%% <br>
+The difference of num1 and num2 is : %%=v(@subtract)=%% <br>
+The multiplication of num1 and num2 is : %%=v(@multiplication)=%% <br>
+The division of num1 and num2 is : %%=v(@division)=%% <br>
+The modulus of num1 and num2 is : %%=v(@mod)=%%
+<br>
+------------------------------------------------------------------------------------
+/*Bonus*/
+-------------------------------------------------------------------------------------------
+/*
+Iif() - Returns one parameter if a condition is true, and a different parameter if it’s false.
+*/
+--------------------------------------------------------------------------------------------
+%%[
+VAR @fName, @subscriptionDate, @message
+SET @fName = [FirstName]
+SET @subscriptionDate = [SubscriptionDate]
+SET @message = IIF(NOT EMPTY(@subscriptionDate), "You're subscribed", "Not Yet Subscribed")
+]%%
+%%=v(@message)=%%
+------------------------------------------------------------------------------------------
+/*
+  IsNull() Tests whether the value of a variable or function is null.
+  It is always showing false, so use the EMPTY() function
+*/
+------------------------------------------------------------------------------------------
+%%[
+ VAR @fName, @lName, @isNull
+ SET @fName = "YourName"
+ SET @isFNameNull = ISNULL(@fName)
+ SET @isLNameNull = ISNULL(@lName)
+ SET @isLNameEmpty = EMPTY(@lName)
+]%%
+Is the first name null? %%=v(@isFNameNull)=%% <br>
+Is the last name null? %%=v(@isLNameNull)=%% <br>
+Is the last name empty? %%=v(@isLNameEmpty)=%%
+------------------------------------------------------------------------------------------
 
