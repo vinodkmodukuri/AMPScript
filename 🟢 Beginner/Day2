@@ -1,0 +1,114 @@
+
+/* 
+Learn the following AMPScript functions 
+
+1️⃣ DateAdd(): Add a specified time value to a date.
+2️⃣ DateDiff(): Get the difference between two dates or times.
+3️⃣ Now(): Get the current system timestamp.
+4️⃣ SystemDateToLocalDate(): Convert system time to local time.
+5️⃣ LocalDateToSystemDate(): Convert local time back to system time.
+*/
+
+/* 
+    Step 1: Create a Data Extension in the Email Studio
+
+
+            |------------------|----------------|--------|-------------|----------|---------------|
+            |    Name          |    Data Type   | Length | Primary Key | Nullable | Default Value | 
+            |------------------|----------------|--------|-------------|----------|---------------|
+            | Email            |  Email Address |  254   |     [x]     |    [ ]   |               | 
+            | First Name       |        Text    |   50   |     [ ]     |    [x]   |               | 
+            | Customer ID      |        Text    |   50   |     [x]     |    [ ]   |               | 
+            | Product Name     |        Text    |   50   |     [ ]     |    [x]   |               | 
+            | Order Date       |        Date    |        |     [ ]     |    [x]   |               | 
+            | TrialStartDate   |        Date    |        |     [ ]     |    [x]   |               | 
+            | SubscriptionDate |        Date    |        |     [ ]     |    [x]   |               | 
+            | Birth Date       |        Date    |        |     [ ]     |    [x]   |               | 
+            |------------------|----------------|--------|-------------|----------|---------------|
+
+
+    Step 2: Import the data from the following CSV file into the Data Extension:
+            Data Extension link: https://github.com/vinodkmodukuri/AMPScript/blob/main/%F0%9F%9F%A2%20Beginner/CustomerActivity_DE.csv 
+
+    Step 3: Use the imported data to implement the following use cases in Email Studio.
+*/
+
+
+1️⃣ DateAdd(): Add a specified time value to a date.
+
+Example1: Adding 7 days to the current date.
+
+%%[
+VAR @today
+SET @today = NOW()
+SET @futureDate = DateAdd(@today, 7, "D")
+]%%
+The future date is: %%=v(@futureDate)=%%
+
+Example2: 30 Daye reminer message 
+
+
+%%[
+VAR @subscriptionDate, @reminderDate, @today
+SET @subscriptionDate = AttributeValue("SubscriptionDate")
+SET @reminderDate = DateAdd(@subscriptionDate, -30, "D")
+SET @today = NOW()
+IF DateDiff(@reminderDate, @today, "D") == 0 THEN
+ SET @subject = "Your Subscription is Expiring Soon!"
+ SER @message = "Your subscription is expiring in 30 days. It's time to renew!"
+ELSE
+ SET @subject = "Subscription Renewal Reminder"
+ SET @message = "Thank you for being with us! Your subscription is still active."
+ENDIF
+]%%
+Subject: %%=v(@subject)=%%
+Message: %%=v(@message)=%%
+
+
+2️⃣ DateDiff(): Get the difference between two dates or times.
+Example: Calculating the number of days, months, or years since the trial started.
+
+%%[
+VAR @trialStartDate, @today, @daysSinceTrial
+SET @trialStartDate = [TrialStartDate]
+SET @today = Now()
+SET @daysSinceTrial = DateDiff(@trialStartDate, @today, "D")
+SET @monthsSinceTrial = DateDiff(@trialStartDate, @today, "M")
+SET @yearsSinceTrial = DateDiff(@trialStartDate, @today, "Y")
+]%%
+The trail started %%=v(@daysSinceTrial)=%% days ago <br>
+The trail started %%=v(@monthsSinceTrial)=%% months ago <br>
+The trail started %%=v(@yearsSinceTrial)=%% year(s) ago <br>
+
+3️⃣ Now(): Get the current system timestamp.
+
+Example: Displaying today's date and time.
+
+%%[
+VAR @today
+SET @today = NOW()
+]%%
+<p>Today's date and time:</p>%%=v(@today)=%%
+
+4️⃣ SystemDateToLocalDate(): Convert system time to local time.
+
+Example: Converting the system time to the user's local timezone.
+
+%%[
+VAR @today
+SET @today = NOW()
+SET @localTime = SystemDateToLocalDate(@today)
+]%%
+Local Date and Time:%%=v(@localTime)=%%
+
+
+5️⃣ LocalDateToSystemDate(): Convert local time back to system time.
+
+Example: Converting local time to system time for backend operations.
+
+%%[
+VAR @today
+SET @today = NOW()
+SET @systemDate = LocalDateToSystemDate(@today)
+]%%
+System Date and Time: %%=LocalDateToSystemDate(@systemDate)=%% <br>
