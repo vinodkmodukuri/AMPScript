@@ -34,7 +34,7 @@ FormatDate() - Format a string as a date value.
     Step 2: Import the data from the following CSV file into the Data Extension:
             Data Extension link: https://github.com/vinodkmodukuri/AMPScript/blob/main/%F0%9F%9F%A2%20Beginner/CustomerActivity_DE.csv 
 
-    Step 3: Use the imported data to implement the following use cases in Email Studio.
+    Step 3: Implement the following use cases in Email Studio.
 */
 
 /*Usecase 1: Personalize the email greeting using the subscriber’s first name from a data extension for a specific customer*/
