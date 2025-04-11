@@ -1,1 +1,35 @@
-S
+/*
+Lowercase() Returns the provided string using only lowercase letters. <br>
+Uppercase() Returns the provided string using only uppercase letters. <br>
+ProperCase() Returns specified string with the first letter of each word capitalized.  <br>
+Trim() Removes white space from the beginning and end of a string.  <br>
+Concat() Concatenates strings of text.  <br>
+Length() Returns the number of characters in a string.  <br>
+Substring() Returns a portion of a string, beginning at a specified character position.  <br>
+Output() Returns the result of an AMPscript function.  <br>
+OutputLine() Returns the result of an AMPscript function followed by a newline character.  <br>
+Empty() Tests to see if a variable has a value.  <br>
+*/
+
+%%[
+VAR @fName, @lName, @city, @state, @country, @zip, @phone
+SET @fName = "BOB"
+SET @lName = "moore"
+SET @city = "dALLaS"
+SET @state = "        TX"
+SET @country = "United States"
+SET @zip = 12345
+Output(v(@zip))
+OutputLine(CONCAT(TRIM(@state), " ", @country))
+]%%
+
+
+Lowercase First Name: %%=LOWERCASE(@fName)=%% <br>
+Uppercase Last Name: %%=UPPERCASE(@lName)=%% <br>
+Propercase City: %%=PROPERCASE(@city)=%% <br>
+Trimmed White Space: %%=TRIM(@state)=%% <br>
+Full Name: %%=CONCAT(PROPERCASE(@fName), " ", PROPERCASE(@lName))=%% <br>
+Substring: %%=SUBSTRING(@country, 1, 6)=%% <br>
+is Phone Empty: %%=EMPTY(@phone)=%% <br>
+The length od Country %%=LENGTH(@country)=%%
+
